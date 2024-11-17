@@ -2,36 +2,50 @@ $LIGHTING_FLOOR: 1;
 $LIGHTING_CEIL: 2;
 $LIGHTING_FLAT: 3;
 
-@mixin text3d($primary, $depth: 5, $shadowsteps: 5, $shadowincrementer: 3px, $shadowopacity: .5, $primaryshadowcolour: #000, $lighting: $LIGHTING_CEIL) {
+@mixin text3d(
+  $primary,
+  $depth: 5,
+  $shadowsteps: 5,
+  $shadowincrementer: 3px,
+  $shadowopacity: 0.5,
+  $primaryshadowcolour: #000,
+  $lighting: $LIGHTING_CEIL
+) {
   $predefinedShadows: (
-    0 0 5px rgba($primaryshadowcolour, .05), 
-    0 -1px 3px rgba($primaryshadowcolour, .2), 
-    0 3px 5px rgba($primaryshadowcolour, .2));
+    0 0 5px rgba($primaryshadowcolour, 0.05),
+    0 -1px 3px rgba($primaryshadowcolour, 0.2),
+    0 3px 5px rgba($primaryshadowcolour, 0.2)
+  );
   $value: ();
   @for $i from 1 through $depth {
     $num: $i + px;
     $hueadjust: $i;
-    @if($lighting == $LIGHTING_FLOOR) {
+    @if ($lighting == $LIGHTING_FLOOR) {
       $hueadjust: ($i * 2 - $depth - 5) * 1%;
-    } @elseif($lighting == $LIGHTING_CEIL) {
-      $hueadjust: -($i*2 + $depth - 10) * 1%;
-    } @elseif($lighting == $LIGHTING_FLAT) {
+    }
+    @elseif ($lighting == $LIGHTING_CEIL) {
+      $hueadjust: -($i * 2 + $depth - 10) * 1%;
+    }
+    @elseif ($lighting == $LIGHTING_FLAT) {
       $hueadjust: -$depth * 1%;
     }
     $colour: adjust-color($primary, $lightness: $hueadjust);
     $theShadow: 0 $num 0 $colour;
     $value: append($value, $theShadow, comma);
   }
-  
+
   @for $i from 1 through $shadowsteps {
-    @if($i >= length($predefinedShadows)) {
+    @if ($i >= length($predefinedShadows)) {
       $dist: $i * $shadowincrementer;
-      $value: append($value, 0 $dist $dist rgba($primaryshadowcolour, $shadowopacity));
+      $value: append(
+        $value,
+        0 $dist $dist rgba($primaryshadowcolour, $shadowopacity)
+      );
     } @else {
       $value: append($value, nth($predefinedShadows, $i));
     }
   }
-  
+
   text-shadow: $value;
 }
 
@@ -2075,17 +2089,22 @@ AB4AAgAKABQAAQAEAEAAAgILAAEABAC4AAICCwABAAIAPAC0AAEAAAABAAgAAgAOAAQA9wD4APcA
 +AABAAQABABJAHsAwQ==");
 }
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
   overflow: hidden;
-  background-color: #E7B251;
-  background-color: #FFFFFF;
+  background-color: #e7b251;
+  background-color: #ffffff;
   // font-family: 'Press Start 2P', cursive;
   height: 100%;
 }
 
-#three-canvas { display: none; width: 100%!important; height: 100%!important; }
+#three-canvas {
+  display: none;
+  width: 100% !important;
+  height: 100% !important;
+}
 
 .game-started {
   #chrome-no-internet {
@@ -2097,18 +2116,18 @@ html, body {
   }
 
   &::after {
-  //   content: ' ';
-  //   position: fixed;
-  //   top: 0;
-  //   right: 0;
-  //   width: 75%;
-  //   height: 25%;
-  //   opacity: 1;
-  //   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+50,ffffff+50,e2ae4f+100&0+55,1+100 */
-  //   background: -moz-linear-gradient(15deg,  rgba(255,255,255,0) 50%, rgba(252,247,237,0) 55%, rgba(226,174,79,1) 100%); /* FF3.6-15 */
-  //   background: -webkit-linear-gradient(15deg,  rgba(255,255,255,0) 50%,rgba(252,247,237,0) 55%,rgba(226,174,79,1) 100%); /* Chrome10-25,Safari5.1-6 */
-  //   background: linear-gradient(15deg,  rgba(255,255,255,0) 50%,rgba(252,247,237,0) 55%,rgba(226,174,79,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  //   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#e2ae4f',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    //   content: ' ';
+    //   position: fixed;
+    //   top: 0;
+    //   right: 0;
+    //   width: 75%;
+    //   height: 25%;
+    //   opacity: 1;
+    //   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ffffff+50,ffffff+50,e2ae4f+100&0+55,1+100 */
+    //   background: -moz-linear-gradient(15deg,  rgba(255,255,255,0) 50%, rgba(252,247,237,0) 55%, rgba(226,174,79,1) 100%); /* FF3.6-15 */
+    //   background: -webkit-linear-gradient(15deg,  rgba(255,255,255,0) 50%,rgba(252,247,237,0) 55%,rgba(226,174,79,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    //   background: linear-gradient(15deg,  rgba(255,255,255,0) 50%,rgba(252,247,237,0) 55%,rgba(226,174,79,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    //   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#e2ae4f',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
   }
 }
 
@@ -2117,14 +2136,28 @@ html, body {
  */
 #preloader {
   position: fixed;
-  left:0;top:0;
-  width:100%;height:100%;
-  z-index:999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
 
-  background: rgb(82,90,95);
-  background: -moz-radial-gradient(circle, rgba(82,90,95,1) 0%, rgba(0,1,1,1) 100%);
-  background: -webkit-radial-gradient(circle, rgba(82,90,95,1) 0%, rgba(0,1,1,1) 100%);
-  background: radial-gradient(circle, rgba(82,90,95,1) 0%, rgba(0,1,1,1) 100%);
+  background: rgb(82, 90, 95);
+  background: -moz-radial-gradient(
+    circle,
+    rgba(82, 90, 95, 1) 0%,
+    rgba(0, 1, 1, 1) 100%
+  );
+  background: -webkit-radial-gradient(
+    circle,
+    rgba(82, 90, 95, 1) 0%,
+    rgba(0, 1, 1, 1) 100%
+  );
+  background: radial-gradient(
+    circle,
+    rgba(82, 90, 95, 1) 0%,
+    rgba(0, 1, 1, 1) 100%
+  );
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#525a5f",endColorstr="#000101",GradientType=1);
 
   &.hidden {
@@ -2132,10 +2165,12 @@ html, body {
   }
 
   &:before {
-    content: ' ';
+    content: " ";
     position: fixed;
-    left:0;top:0;
-    width:100%;height:100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
 
     background-image: url(../media/preloader-dino.png);
     background-repeat: no-repeat;
@@ -2144,10 +2179,12 @@ html, body {
   }
 
   &:after {
-    content: ' ';
+    content: " ";
     position: fixed;
-    left:0;top:0;
-    width:100%;height:100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
 
     background-image: url(../media/3d-title.png);
     background-repeat: no-repeat;
@@ -2158,17 +2195,19 @@ html, body {
   .progress {
     width: 1300px;
     position: fixed;
-    left:0;right:0;
+    left: 0;
+    right: 0;
     bottom: 5%;
     margin: auto;
-    transform: scale(.7);
+    transform: scale(0.7);
   }
 }
 
 // 1366x768
 @media (max-width: 1365px) {
   #preloader {
-    &:before {}
+    &:before {
+    }
     &:after {
       background-size: 1100px;
     }
@@ -2180,7 +2219,8 @@ html, body {
 
 @media (max-width: 1200px) {
   #preloader {
-    &:before {}
+    &:before {
+    }
     &:after {
       background-size: 1000px;
     }
@@ -2192,7 +2232,8 @@ html, body {
 
 @media (max-width: 992px) {
   #preloader {
-    &:before {}
+    &:before {
+    }
     &:after {
       background-size: 750px;
     }
@@ -2204,8 +2245,12 @@ html, body {
 
 @media (max-width: 768px) {
   #preloader {
-    &:before {background-size: 70%;}
-    &:after {display: none;}
+    &:before {
+      background-size: 70%;
+    }
+    &:after {
+      display: none;
+    }
     .progress {
       width: 90%;
     }
@@ -2220,7 +2265,7 @@ START // CHART'S RULES
 */
 
 $yellow: #f1c40f;
-$lime: #76c900;
+$lime: #169f5a;
 $navy: #0a4069;
 $cyan: #57caf4;
 $red: #ec008c;
@@ -2228,141 +2273,126 @@ $white: #fefefe;
 $gray: #444;
 $lightGray: lighten($gray, 30);
 
-$transitionDuration: .3s;
+$transitionDuration: 0.3s;
 $transition: all $transitionDuration ease-in-out;
 
-.chart
-{
-    font-size: 1em;
+.chart {
+  font-size: 1em;
 
-    perspective: 1000px;
-    perspective-origin: 50% 50%;
-    backface-visibility: visible;
+  perspective: 1000px;
+  perspective-origin: 50% 50%;
+  backface-visibility: visible;
 }
 
-$faceColor: rgba($white, .3);
-$growColor: rgba($red, .6);
+$faceColor: rgba($white, 0.3);
+$growColor: rgba($red, 0.6);
 
-.bar
-{
-    font-size: 1em;
+.bar {
+  font-size: 1em;
+
+  position: relative;
+
+  height: 10em;
+
+  transition: $transition;
+  transform: rotateX(60deg) rotateY(0deg);
+
+  transform-style: preserve-3d;
+
+  .face {
+    font-size: 2em;
 
     position: relative;
 
-    height: 10em;
-
-    transition: $transition;
-    transform: rotateX(60deg) rotateY(0deg);
-
-    transform-style: preserve-3d;
-
-    .face
-    {
-        font-size: 2em;
-
-        position: relative;
-
-        width: 100%;
-        height: 2em;
-
-        background-color: $faceColor;
-
-        &.side-a,
-        &.side-b
-        {
-            width: 2em;
-        }
-    }
-    .side-a
-    {
-        transform: rotateX(90deg) rotateY(-90deg) translateX(2em) translateY(1em) translateZ(1em);
-    }
-    .side-b
-    {
-        transform: rotateX(90deg) rotateY(-90deg) translateX(4em) translateY(1em) translateZ(-1em);
-        position: absolute;
-        right: 0;
-    }
-    .side-0
-    {
-        transform: rotateX(90deg) rotateY(0) translateX(0) translateY(1em) translateZ(-1em);
-    }
-    .side-1
-    {
-        transform: rotateX(90deg) rotateY(0) translateX(0) translateY(1em) translateZ(3em);
-    }
-    .top
-    {
-        transform: rotateX(0deg) rotateY(0) translateX(0em) translateY(4em) translateZ(2em);
-    }
-    .floor
-    {
-        box-shadow: 0 .1em 0.6em rgba(0,0,0,.3), .6em -0.5em 3em rgba(0,0,0,.3), 1em -1em 8em $white;
-    }
-}
-
-.growing-bar
-{
-    transition: $transition;
-    background-color: $growColor;
     width: 100%;
     height: 2em;
+
+    background-color: $faceColor;
+
+    &.side-a,
+    &.side-b {
+      width: 2em;
+    }
+  }
+  .side-a {
+    transform: rotateX(90deg) rotateY(-90deg) translateX(2em) translateY(1em)
+      translateZ(1em);
+  }
+  .side-b {
+    transform: rotateX(90deg) rotateY(-90deg) translateX(4em) translateY(1em)
+      translateZ(-1em);
+    position: absolute;
+    right: 0;
+  }
+  .side-0 {
+    transform: rotateX(90deg) rotateY(0) translateX(0) translateY(1em)
+      translateZ(-1em);
+  }
+  .side-1 {
+    transform: rotateX(90deg) rotateY(0) translateX(0) translateY(1em)
+      translateZ(3em);
+  }
+  .top {
+    transform: rotateX(0deg) rotateY(0) translateX(0em) translateY(4em)
+      translateZ(2em);
+  }
+  .floor {
+    box-shadow: 0 0.1em 0.6em rgba(0, 0, 0, 0.3),
+      0.6em -0.5em 3em rgba(0, 0, 0, 0.3), 1em -1em 8em $white;
+  }
 }
 
-@mixin drawSkin($color, $name)
-{
-    .bar.#{$name}
-    {
-        .side-a,
+.growing-bar {
+  transition: $transition;
+  background-color: $growColor;
+  width: 100%;
+  height: 2em;
+}
+
+@mixin drawSkin($color, $name) {
+  .bar.#{$name} {
+    .side-a,
         // &.bar-100 .side-b,
-        .growing-bar
-        {
-            background-color: rgba($color, .6);
-        }
-        .side-0 .growing-bar
-        {
-            box-shadow: -0.5em -1.5em 4em $color;
-        }
-        .floor .growing-bar
-        {
-            box-shadow: 0em 0em 2em $color;
-        }
+        .growing-bar {
+      background-color: rgba($color, 0.6);
     }
+    .side-0 .growing-bar {
+      box-shadow: -0.5em -1.5em 4em $color;
+    }
+    .floor .growing-bar {
+      box-shadow: 0em 0em 2em $color;
+    }
+  }
 }
 
-@mixin drawFaces($color, $name)
-{
-    .chart .bar.#{$name} .face
-    {
-        background-color: rgba($color, .2);
-    }
+@mixin drawFaces($color, $name) {
+  .chart .bar.#{$name} .face {
+    background-color: rgba($color, 0.2);
+  }
 }
 
-@include drawSkin(rgba($yellow, .8), 'yellow');
-@include drawSkin(rgba($red, .8), 'red');
-@include drawSkin($cyan, 'cyan');
-@include drawSkin(rgba($navy, .8), 'navy');
-@include drawSkin($lime, 'lime');
-@include drawSkin($white, 'white');
-@include drawSkin($gray, 'gray');
+@include drawSkin(rgba($yellow, 0.8), "yellow");
+@include drawSkin(rgba($red, 0.8), "red");
+@include drawSkin($cyan, "cyan");
+@include drawSkin(rgba($navy, 0.8), "navy");
+@include drawSkin($lime, "lime");
+@include drawSkin($white, "white");
+@include drawSkin($gray, "gray");
 
-@include drawFaces(rgba($yellow, .6), 'yellow-face');
-@include drawFaces($lime, 'lime-face');
-@include drawFaces(rgba($red, .6), 'red-face');
-@include drawFaces(rgba($navy, .6), 'navy-face');
-@include drawFaces($cyan, 'cyan-face');
-@include drawFaces($gray, 'gray-face');
-@include drawFaces($lightGray, 'lightGray-face');
+@include drawFaces(rgba($yellow, 0.6), "yellow-face");
+@include drawFaces($lime, "lime-face");
+@include drawFaces(rgba($red, 0.6), "red-face");
+@include drawFaces(rgba($navy, 0.6), "navy-face");
+@include drawFaces($cyan, "cyan-face");
+@include drawFaces($gray, "gray-face");
+@include drawFaces($lightGray, "lightGray-face");
 
-@for $i from 0 to 101
-{
-    .bar-#{$i}
-    {
-        .growing-bar
-        {
-            width: percentage($i/100);
-        }
+@for $i from 0 to 101 {
+  .bar-#{$i} {
+    .growing-bar {
+      width: percentage($i/100);
     }
+  }
 }
 
 /*
@@ -2378,10 +2408,11 @@ END // CHART'S RULES
   width: 600px;
   height: 275px;
   position: fixed;
-  left:0;right:0;
-  margin:auto;
+  left: 0;
+  right: 0;
+  margin: auto;
   margin-top: 175px;
-  font-family: 'Segoe UI', Tahoma, sans-serif;
+  font-family: "Segoe UI", Tahoma, sans-serif;
 
   & > .poster {
     display: block;
@@ -2396,12 +2427,16 @@ END // CHART'S RULES
   }
 
   @keyframes jump {
-    from {top: 0px;}
-    to {top: -50px;}
+    from {
+      top: 0px;
+    }
+    to {
+      top: -50px;
+    }
   }
 
   &.before-start > .poster {
-    animation: jump .3s;
+    animation: jump 0.3s;
     animation-iteration-count: 2;
     animation-direction: alternate;
     animation-timing-function: ease-in-out;
@@ -2437,7 +2472,7 @@ END // CHART'S RULES
       }
 
       #game-start {
-        color: #7FD133;
+        color: $lime;
         font-weight: 500;
         cursor: pointer;
 
@@ -2462,17 +2497,20 @@ END // CHART'S RULES
   width: 600px;
   height: 275px;
   position: fixed;
-  left:0;top:0;right:0;bottom:0;
-  margin:auto;
-  font-family: 'Press Start 2P', cursive;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  font-family: "Press Start 2P", cursive;
   text-align: center;
   cursor: pointer;
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Opera and Firefox */
 
   & > h1 {
@@ -2491,12 +2529,11 @@ END // CHART'S RULES
   }
 }
 
-
 /**
  * Scores.
  */
 
-$scorecountercolor: darken(#85A0AC, 5%);
+$scorecountercolor: darken(#85a0ac, 5%);
 
 #score-counter {
   position: fixed;
@@ -2505,15 +2542,17 @@ $scorecountercolor: darken(#85A0AC, 5%);
   z-index: 100;
 
   @include text3d(
-    adjust-color($scorecountercolor, $lightness: -8%), 
-    $depth: 8, 
-    $primaryshadowcolour: adjust-color($scorecountercolor, $lightness: -10%, $saturation: +20%));
+    adjust-color($scorecountercolor, $lightness: -8%),
+    $depth: 8,
+    $primaryshadowcolour:
+      adjust-color($scorecountercolor, $lightness: -10%, $saturation: +20%)
+  );
 
   & > .score-counter-score {
     margin-left: 30px;
 
     &.score-flash {
-      animation: blinker .5s step-start infinite;
+      animation: blinker 0.5s step-start infinite;
     }
   }
 }
